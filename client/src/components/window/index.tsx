@@ -1,5 +1,7 @@
-import { Rnd } from "react-rnd";
+import { AnimatePresence, motion } from "motion/react";
+import DraggableWindow from "./components/draggable-window";
 import TitleBar from "./components/title-bar";
+import useRemoveWindow from "./hooks/useRemoveWindow";
 import { BaseWindow } from "./types";
 
 interface WindowProps extends BaseWindow {
@@ -7,41 +9,44 @@ interface WindowProps extends BaseWindow {
 }
 
 function Window({
+  id,
   appIcon,
   title,
   minimize,
   maximize,
   close,
+  show,
   children,
 }: WindowProps) {
+  useRemoveWindow({ show, id });
+
   return (
-    <Rnd
-      default={{
-        x: 8,
-        y: 8,
-        width: 640,
-        height: 480,
-      }}
-      bounds="parent"
-      dragHandleClassName="handle"
-      enableResizing={{
-        top: false,
-        bottom: false,
-        left: false,
-        right: false,
-        bottomRight: true,
-      }}
-      className="flex flex-col bg-quartz rounded-md shadow-md overflow-hidden w-full h-full"
-    >
-      <TitleBar
-        appIcon={appIcon}
-        title={title}
-        minimize={minimize}
-        maximize={maximize}
-        close={close}
-      />
-      {children}
-    </Rnd>
+    <DraggableWindow>
+      <AnimatePresence>
+        {show && (
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            exit={{ scale: 0 }}
+            transition={{
+              type: "keyframes",
+              duration: 0.2,
+            }}
+            className="flex flex-col bg-quartz rounded-md shadow-md overflow-hidden w-full h-full"
+          >
+            <TitleBar
+              id={id}
+              appIcon={appIcon}
+              title={title}
+              minimize={minimize}
+              maximize={maximize}
+              close={close}
+            />
+            {children}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </DraggableWindow>
   );
 }
 

@@ -1,8 +1,8 @@
 import { IconType } from "react-icons";
+import { Window } from "../../common/types";
 
-export interface BaseWindow {
+export interface BaseWindow extends Window {
   appIcon?: IconType;
-  title?: string;
   minimize?: boolean;
   maximize?: boolean;
   close?: boolean;
