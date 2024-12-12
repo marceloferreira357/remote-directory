@@ -12,7 +12,7 @@ function TitleBar({
   minimize,
   maximize,
   close,
-}: Omit<BaseWindow, "show">) {
+}: Omit<BaseWindow, "show" | "active">) {
   return (
     <div className="relative flex flex-row items-center justify-between bg-arsenic p-2">
       <div className="absolute top-0 left-0 w-full h-full cursor-move drag-handle" />

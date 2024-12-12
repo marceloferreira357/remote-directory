@@ -1,10 +1,24 @@
+import { useCallback } from "react";
 import { Rnd } from "react-rnd";
+import { Window } from "../../../common/types";
+import { cn } from "../../../common/utils";
+import useWindowsStore from "../../../stores/useWindowsStore";
 
-interface DraggableWindowProps {
+interface DraggableWindowProps extends Pick<Window, "id" | "active"> {
   children: React.ReactNode;
 }
 
-function DraggableWindow({ children }: DraggableWindowProps) {
+function DraggableWindow({ id, active, children }: DraggableWindowProps) {
+  const { activateWindow } = useWindowsStore((state) => state);
+
+  const handleOnMouseDown = useCallback(
+    (e: MouseEvent): void => {
+      e.preventDefault();
+      activateWindow(id);
+    },
+    [activateWindow]
+  );
+
   return (
     <Rnd
       default={{
@@ -21,6 +35,8 @@ function DraggableWindow({ children }: DraggableWindowProps) {
         right: false,
         bottomRight: true,
       }}
+      onMouseDown={handleOnMouseDown}
+      className={cn(active ? "z-50" : "z-40")}
     >
       {children}
     </Rnd>

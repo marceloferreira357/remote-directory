@@ -10,6 +10,7 @@ export default {
         arsenic: "#404247",
         "black-coral": "#58626A",
         "slate-gray": "#6E858B",
+        "cadet-grey": "#88AAA9",
       },
     },
   },

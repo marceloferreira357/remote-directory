@@ -11,7 +11,7 @@ function App() {
       <div className="flex flex-wrap flex-col gap-2 p-2">
         <DesktopIcon icon={FaFolder} title="dir1" />
       </div>
-      {windows.map(({ id, title, show }) => (
+      {windows.map(({ id, title, show, active }) => (
         <Window
           key={id}
           id={id}
@@ -21,6 +21,7 @@ function App() {
           maximize
           close
           show={show}
+          active={active}
         >
           <span>Hello, World!</span>
         </Window>

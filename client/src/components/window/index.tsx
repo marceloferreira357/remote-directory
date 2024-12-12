@@ -17,14 +17,29 @@ function Window({
   close,
   show,
   children,
+  active,
 }: WindowProps) {
   useRemoveWindow({ show, id });
 
   return (
-    <DraggableWindow>
+    <DraggableWindow id={id} active={active}>
       <AnimatePresence>
+        {!active && (
+          <motion.div
+            key="active"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{
+              type: "keyframes",
+              duration: 0.08,
+            }}
+            className="absolute top-0 left-0 w-full h-full bg-black-coral/80 z-50 rounded-md"
+          />
+        )}
         {show && (
           <motion.div
+            key="window"
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             exit={{ scale: 0 }}
