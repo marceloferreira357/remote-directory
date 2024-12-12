@@ -4,11 +4,17 @@ import { Window } from "../../../common/types";
 import { cn } from "../../../common/utils";
 import useWindowsStore from "../../../stores/useWindowsStore";
 
-interface DraggableWindowProps extends Pick<Window, "id" | "active"> {
+interface DraggableWindowProps
+  extends Pick<Window, "id" | "active" | "initialPosition"> {
   children: React.ReactNode;
 }
 
-function DraggableWindow({ id, active, children }: DraggableWindowProps) {
+function DraggableWindow({
+  id,
+  active,
+  children,
+  initialPosition,
+}: DraggableWindowProps) {
   const { activateWindow } = useWindowsStore((state) => state);
 
   const handleOnMouseDown = useCallback(
@@ -22,8 +28,7 @@ function DraggableWindow({ id, active, children }: DraggableWindowProps) {
   return (
     <Rnd
       default={{
-        x: 8,
-        y: 8,
+        ...initialPosition,
         width: 640,
         height: 480,
       }}

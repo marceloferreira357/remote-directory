@@ -3,6 +3,7 @@ import { useCallback } from "react";
 import { IconType } from "react-icons";
 import { FaFile } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
+import { Position } from "../common/types";
 import useWindowsStore from "../stores/useWindowsStore";
 
 interface DesktopIconProps {
@@ -16,10 +17,27 @@ function DesktopIcon({ icon: Icon, title }: DesktopIconProps) {
   const handleOnClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
       event.preventDefault();
+      event.stopPropagation();
+
+      const buttonElement = event.currentTarget;
+      const rect = buttonElement.getBoundingClientRect();
+
+      const initialPosition: Position = {
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2,
+      };
+
       const id = uuidv4();
-      addWindow({ id, title: title ?? "", show: true, active: true });
+
+      addWindow({
+        id,
+        title: title ?? "",
+        show: true,
+        active: true,
+        initialPosition,
+      });
     },
-    [addWindow]
+    [addWindow, title]
   );
 
   return (

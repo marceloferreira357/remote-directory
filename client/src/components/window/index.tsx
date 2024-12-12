@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from "motion/react";
+import { useCallback } from "react";
 import DraggableWindow from "./components/draggable-window";
 import TitleBar from "./components/title-bar";
 import useRemoveWindow from "./hooks/useRemoveWindow";
@@ -18,11 +19,20 @@ function Window({
   show,
   children,
   active,
+  initialPosition,
 }: WindowProps) {
   useRemoveWindow({ show, id });
 
+  const handleOnClick = useCallback(
+    (event: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
+      event.preventDefault();
+      event.stopPropagation();
+    },
+    []
+  );
+
   return (
-    <DraggableWindow id={id} active={active}>
+    <DraggableWindow id={id} active={active} initialPosition={initialPosition}>
       <AnimatePresence>
         {!active && (
           <motion.div
@@ -35,6 +45,7 @@ function Window({
               duration: 0.08,
             }}
             className="absolute top-0 left-0 w-full h-full bg-black-coral/80 z-50 rounded-md"
+            onClick={handleOnClick}
           />
         )}
         {show && (
@@ -48,6 +59,7 @@ function Window({
               duration: 0.2,
             }}
             className="flex flex-col bg-quartz rounded-md shadow-md overflow-hidden w-full h-full"
+            onClick={handleOnClick}
           >
             <TitleBar
               id={id}

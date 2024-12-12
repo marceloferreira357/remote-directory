@@ -2,7 +2,10 @@ import { useEffect } from "react";
 import { Window } from "../../../common/types";
 import useWindowsStore from "../../../stores/useWindowsStore";
 
-const useRemoveWindow = ({ show, id }: Omit<Window, "title" | "active">) => {
+const useRemoveWindow = ({
+  show,
+  id,
+}: Omit<Window, "title" | "active" | "initialPosition">) => {
   const { removeWindow } = useWindowsStore((state) => state);
 
   useEffect(() => {

@@ -6,6 +6,7 @@ const useWindowsStore = create<{
   addWindow: (window: Window) => void;
   toggleShow: (windowId: string) => void;
   activateWindow: (windowId: string) => void;
+  deactivateWindows: () => void;
   removeWindow: (windowId: string) => void;
 }>((set) => ({
   windows: [],
@@ -29,6 +30,10 @@ const useWindowsStore = create<{
         ...window,
         active: window.id === windowId ? true : false,
       })),
+    })),
+  deactivateWindows: () =>
+    set((state) => ({
+      windows: state.windows.map((window) => ({ ...window, active: false })),
     })),
   removeWindow: (windowId: string) =>
     set((state) => ({
