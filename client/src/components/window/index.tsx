@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "motion/react";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import DraggableWindow from "./components/draggable-window";
 import TitleBar from "./components/title-bar";
 import useRemoveWindow from "./hooks/useRemoveWindow";
@@ -21,6 +21,8 @@ function Window({
   active,
   initialPosition,
 }: WindowProps) {
+  const [fullScreen, setFullScreen] = useState<boolean>(false);
+
   useRemoveWindow({ show, id });
 
   const handleOnClick = useCallback(
@@ -32,7 +34,12 @@ function Window({
   );
 
   return (
-    <DraggableWindow id={id} active={active} initialPosition={initialPosition}>
+    <DraggableWindow
+      id={id}
+      active={active}
+      initialPosition={initialPosition}
+      fullScreen={fullScreen}
+    >
       <AnimatePresence>
         {!active && (
           <motion.div
@@ -68,6 +75,7 @@ function Window({
               minimize={minimize}
               maximize={maximize}
               close={close}
+              setFullScreen={setFullScreen}
             />
             {children}
           </motion.div>

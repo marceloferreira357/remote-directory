@@ -5,6 +5,11 @@ import CloseButton from "./components/close-button";
 import MaximizeButton from "./components/maximize-button";
 import MinimizeButton from "./components/minimize-button";
 
+interface TitleBarProps
+  extends Omit<BaseWindow, "show" | "active" | "initialPosition"> {
+  setFullScreen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
 function TitleBar({
   id,
   appIcon,
@@ -12,7 +17,8 @@ function TitleBar({
   minimize,
   maximize,
   close,
-}: Omit<BaseWindow, "show" | "active" | "initialPosition">) {
+  setFullScreen,
+}: TitleBarProps) {
   return (
     <div className="relative flex flex-row items-center justify-between bg-arsenic p-2">
       <div className="absolute top-0 left-0 w-full h-full cursor-move drag-handle" />
@@ -22,7 +28,7 @@ function TitleBar({
       </BarContent>
       <BarContent>
         {minimize && <MinimizeButton />}
-        {maximize && <MaximizeButton />}
+        {maximize && <MaximizeButton setFullScreen={setFullScreen} />}
         {close && <CloseButton id={id} />}
       </BarContent>
     </div>
